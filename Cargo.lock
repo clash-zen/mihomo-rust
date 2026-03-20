@@ -532,6 +532,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "it_works"
+version = "0.1.0"
+dependencies = [
+ "mihomo",
+ "reqwest",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -588,7 +596,6 @@ name = "mihomo"
 version = "0.1.0"
 dependencies = [
  "mihomo-sys",
- "reqwest",
 ]
 
 [[package]]

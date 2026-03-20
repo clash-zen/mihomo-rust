@@ -1,0 +1,11 @@
+[package]
+name = "it_works"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+mihomo.workspace = true
+reqwest = { version = "0.12", features = ["blocking"] }

@@ -3,4 +3,15 @@ resolver = "2"
 members = [
   "mihomo-sys",
   "mihomo",
+  "integration/it_works",
 ]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0"
+repository = "https://github.com/clash-zen/mihomo-rust"
+
+[workspace.dependencies]
+mihomo = { path = "mihomo", version = "0.1.0" }
+mihomo-sys = { path = "mihomo-sys", version = "0.1.0" }

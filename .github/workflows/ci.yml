@@ -1,0 +1,74 @@
+# Continuous integration: push / PR to main or master.
+#
+# Flow (jobs run in parallel unless you add needs:):
+#   1) fmt   — rustfmt only (no Go).
+#   2) clippy — Go + gcc (CGO), then mihomo-sys + workspace clippy.
+#   3) test  — matrix Linux / macOS / Windows: Go + CGO, cargo test --workspace.
+#
+# mihomo-sys always builds the Go c-shared library via build.rs (see docs/BUILD.md).
+
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  fmt:
+    name: rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - run: cargo fmt --all --check
+
+  clippy:
+    name: clippy (Linux + Go/CGO)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: mihomo-sys/builder/go.mod
+          cache-dependency-path: mihomo-sys/builder/go.sum
+      - name: Install gcc (CGO)
+        run: sudo apt-get update && sudo apt-get install -y gcc
+      - run: cargo clippy --workspace --all-targets -- -D warnings
+
+  test:
+    name: test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: mihomo-sys/builder/go.mod
+          cache-dependency-path: mihomo-sys/builder/go.sum
+      - name: Install gcc (Linux CGO)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y gcc
+      - name: Install MinGW (Windows CGO)
+        if: runner.os == 'Windows'
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: x64
+      - run: cargo test --workspace

@@ -1,11 +1,28 @@
 [package]
 name = "mihomo-sys"
-version = "0.1.0"
-edition = "2021"
+version.workspace = true
+edition.workspace = true
+description = "Unsafe FFI bindings to the mihomo proxy kernel (Go c-shared)."
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords = ["mihomo", "proxy", "ffi", "clash"]
+categories = ["api-bindings", "external-ffi-bindings"]
 links = "mihomo"
 build = "build.rs"
-license = "GPL-3.0"
+
+include = [
+    "Cargo.toml",
+    "build.rs",
+    "README.md",
+    "src/**/*",
+    "builder/**/*.go",
+    "builder/go.mod",
+    "builder/go.sum",
+]
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
 libc = "0.2"
-

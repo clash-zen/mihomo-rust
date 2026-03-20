@@ -4,7 +4,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-BUILDER="${ROOT}/builder"
+BUILDER="${ROOT}/mihomo-sys/builder"
 MOD="github.com/metacubex/mihomo"
 
 usage() {
@@ -20,8 +20,6 @@ Options:
   --latest       Use @latest (default when no tag given)
   --no-tidy      Skip go mod tidy after go get
   -h, --help     Show this help
-
-Updates builder/go.mod and builder/go.sum. Commit those files after review.
 
 Examples:
   ./scripts/bump-mihomo.sh
@@ -94,14 +92,14 @@ elif [[ "$want_latest" -eq 1 || -z "$version_ref" ]]; then
   spec="${MOD}@latest"
 fi
 
-echo "Running: (cd builder && go get ${spec})"
+echo "Running: (cd mihomo-sys/builder && go get ${spec})"
 (
   cd "$BUILDER"
   go get "$spec"
 )
 
 if [[ "$no_tidy" -eq 0 ]]; then
-  echo "Running: (cd builder && go mod tidy)"
+  echo "Running: (cd mihomo-sys/builder && go mod tidy)"
   (cd "$BUILDER" && go mod tidy)
 fi
 

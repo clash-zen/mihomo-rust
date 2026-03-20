@@ -1,12 +1,13 @@
 [package]
 name = "mihomo"
-version = "0.1.0"
-edition = "2021"
-license = "GPL-3.0"
+version.workspace = true
+edition.workspace = true
+description = "Safe in-process API for the mihomo proxy kernel (GPL-3.0)."
+license.workspace = true
+repository.workspace = true
+readme = "README.md"
+keywords = ["mihomo", "proxy", "clash"]
+categories = ["api-bindings", "network-programming"]
 
 [dependencies]
-mihomo-sys = { path = "../mihomo-sys" }
-
-[dev-dependencies]
-reqwest = { version = "0.12", features = ["blocking"] }
-
+mihomo-sys.workspace = true
