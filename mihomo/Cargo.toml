@@ -1,0 +1,12 @@
+[package]
+name = "mihomo"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0"
+
+[dependencies]
+mihomo-sys = { path = "../mihomo-sys" }
+
+[dev-dependencies]
+reqwest = { version = "0.12", features = ["blocking"] }
+

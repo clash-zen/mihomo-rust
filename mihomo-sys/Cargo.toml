@@ -1,0 +1,11 @@
+[package]
+name = "mihomo-sys"
+version = "0.1.0"
+edition = "2021"
+links = "mihomo"
+build = "build.rs"
+license = "GPL-3.0"
+
+[dependencies]
+libc = "0.2"
+

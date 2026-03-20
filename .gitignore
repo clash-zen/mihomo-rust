@@ -1,0 +1,13 @@
+# Rust / Cargo
+/target/
+**/*.rs.bk
+Cargo.lock.bak
+
+# Prebuilt shared libraries and Go c-shared headers under libs/ (keep README)
+/libs/*
+!/libs/README.md
+
+# OS / editor
+.DS_Store
+*.swp
+*~
